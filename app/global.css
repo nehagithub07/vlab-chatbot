@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Global base tweaks */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* Simple CSS variables hook (optional) */
+:root {
+  color-scheme: light dark;
+}
