@@ -58,3 +58,191 @@ P.C. Krause, O. Wasynczuk, and S.D. Sudhoff, Analysis of Electric Machinery and 
 B. Amin, Induction Motors: Analysis and Torque Control, Springer, 2002.
 N. Mohan, Advanced Electric Drives: Analysis, Control and Modeling using Simulink, published by MNPERE (www.MNPERE.com), 2001.
 W. Leonhard, Control of Electrical Drives, Springer, 3rd ed. 2001.
+
+
+Familiarization of the Electrical Machine Laboratory Apparatus
+1) Overview
+This experiment helps learners recognize common electrical/electronic lab apparatus, their symbols, and their basic functions. The original simulation presents items as image cards with collapsible panels and simple drag‑and‑drop quizzes. This content pack lists each apparatus with: - 
+________________________________________
+2) Apparatus Cards (Content + Image References)
+Resistor
+•	Photo: images/res.png
+•	Symbol: images/rrr.png
+•	Function: To control/limit the flow of current to other components in a circuit.
+Capacitor
+•	Photo: images/ccc.jpg (also appears as images/ccc.png on another page)
+•	Symbol: images/Capacitor.png
+•	Function: Stores electrical energy and returns it to the circuit when needed.
+Inductor
+•	Photo: images/inn.jpg
+•	Symbol: images/i.png
+•	Function: Allows DC to pass while opposing (blocking) AC.
+Rheostat (Variable Resistor)
+•	Photo: images/rh.jpg
+•	Symbol: images/rr.png
+•	Function: Variable resistor; by changing its resistance, you control the current through it.
+Voltmeter
+•	Photo: images/vv.jpg
+•	Symbol: images/v.png (also appears as images/Voltmeter.png in a drag item)
+•	Function: Measures electric potential difference (voltage) between two points.
+Ammeter
+•	Photo: images/a.png
+•	Symbol: images/Ameter.png
+•	Function: Measures electric current (in amperes). Ideally has very low (≈0) internal resistance.
+Relay
+•	Photo: images/re.png
+•	Symbol: images/rel.png
+•	Function: Electromechanical/electronic switch that opens/closes circuits.
+Circuit Breaker
+•	Photo: images/ccc.png
+•	Symbol: images/cb.png
+•	Function: Interrupts current flow automatically when a fault is detected.
+Slip Ring Induction Motor
+•	Photo: images/s.png
+•	Symbol: images/ss.png
+•	Function: Used where high starting torque or good speed control is required.
+Squirrel Cage Induction Motor
+•	Photo: images/sqq.png
+•	Symbol: images/sq.png
+•	Function: Works via interaction of stator and rotor magnetic fields to produce torque.
+DC Motor
+•	Photo: images/DC Motor.png
+•	Symbol: images/d.png
+•	Function: Converts DC electrical energy into mechanical (rotational) energy.
+Auto‑Transformer
+•	Photo: images/aa.png
+•	Symbol: images/at.png
+•	Function: Used for starting induction motors, regulating transmission line voltage, and stepping voltages when primary/secondary ratio is near unity.
+Note on filenames seen in drag items: Some images appear with slightly different capitalization or spelling in the source (e.g., images/Rehostate.png, images/Voltmeter.png, images/in.png). Keep both aliases in your asset store if needed, or normalize names during ingestion while mapping old→new in metadata.
+________________________________________
+3) One‑liners for Embeddings (Concise Knowledge Snippets)
+These short, declarative statements help retrieval models answer “what/why/how” quickly.
+•	A resistor limits current in a circuit.
+
+•	A capacitor stores electrical energy and releases it back when required.
+
+•	An inductor passes DC and impedes AC due to inductive reactance.
+
+•	A rheostat is a variable resistor used to adjust current.
+
+•	A voltmeter measures potential difference between two points and is connected in parallel.
+
+•	An ammeter measures current and is connected in series; it should have very low internal resistance.
+
+•	A relay is an electrically operated switch controlling another circuit.
+
+•	A circuit breaker trips to stop current when faults occur.
+
+•	A slip ring induction motor offers high starting torque and good speed control.
+
+•	A squirrel cage induction motor uses stator–rotor magnetic interaction to produce torque.
+
+•	A DC motor converts DC electrical power into mechanical rotation.
+
+•	An auto‑transformer provides variable/near‑unity ratio transformation and motor starting.
+________________________________________
+4) Quiz Content (Drag‑and‑Drop Mappings)
+The simulation includes two drag‑and‑drop activities. Below are the semantic pairs so the chatbot can quiz or check answers using text only.
+Quiz A (story2.html): Match image → description
+•	images/res.png → Resistor
+
+•	images/Rehostate.png → Rheostat
+
+•	images/Voltmeter.png → Measures voltage across two terminals (Voltmeter)
+
+•	images/in.png → Allows DC through but blocks AC (Inductor)
+Quiz B (story4.html): Match image/symbol → label
+•	images/at.png → Auto Transformer — Symbol
+
+•	images/Capacitor.png → Stores charge in it (Capacitor)
+
+•	images/ss.png → Slip Ring Induction Motor (symbol depiction)
+
+•	images/Ameter.png → Ideally it has zero resistance (Ammeter property)
+
+•	images/rel.png → Relay — Symbol
+
+•	images/Rehostate.png → Variable Resistor (Rheostat)
+
+•	images/cb.png → Circuit Breaker — Symbol
+
+•	images/DC\ Motor.png → DC Motor
+
+•	images/sq.png → Squirrel Cage Induction Motor (symbol depiction)
+Implementation tip: Store each pair as {image_path, normalized_label, concept_id} to make vector lookups deterministic. Provide synonyms (e.g., rheostat ↔ variable resistor).
+________________________________________
+5) Suggested Metadata Fields per Item
+Add light, consistent metadata to improve retrieval quality: - title (e.g., “Resistor”)
+- type (equipment | instrument | machine | symbol)
+- function (one line)
+- connections (series/parallel/NA)
+- ideal_properties (e.g., ammeter: ~0 Ω, voltmeter: very high Ω)
+- image_photo_path
+- image_symbol_path
+- aliases (e.g., rheostat ↔ variable resistor; auto‑transformer ↔ autotransformer)
+- page_source (story1 | story2 | story3 | story4)
+- tags (e.g., measurement, protection, motor, passive‑component)
+________________________________________
+6) Ingestion Notes
+•	Keep the directory name images/ to preserve existing paths; this helps if you later re‑host the images.
+
+•	For files with spacing or capitalization (e.g., DC Motor.png, Rehostate.png), either normalize (rename) and record an alias, or keep as‑is and ensure the exact path is indexed.
+
+•	Remove HTML/JS; only store clean markdown/text + image references for embeddings.
+
+•	Consider generating two embeddings per item: one from the full description and one from the concise one‑liner.
+________________________________________
+7) Credits
+•	Lab contributed by: IIT Roorkee
+________________________________________
+8) (Optional) Appendix — Quick Q&A Snippets
+Use these as ready‑made flashcards for your chatbot:
+•	Q: What does a rheostat do?
+A: It’s a variable resistor used to control current.
+•	Q: How should a voltmeter be connected in a circuit?
+A: In parallel across the two points of interest.
+•	Q: Why should an ammeter have very low resistance?
+A: To avoid dropping voltage and to measure current accurately when placed in series.
+•	Q: Where is a slip ring induction motor preferred?
+A: Applications needing high starting torque or better speed control.
+•	Q: What is the role of a circuit breaker?
+A: It interrupts current automatically when a fault occurs.
+                                                    
+S.No.	Name of the Equipment	Image	Symbol	Function
+1.	Resistor	 	 	To control the flow of current to other components in a circuit.
+2.	Capacitor	 	 	To store the electrical energy and give this energy again to the circuit when necessary.
+
+3.	Inductor	 	 	To block AC while allowing DC to pass.
+4.	Voltmeter	 	 	An instrument used for measuring electrical potential difference between two points in an electric circuit.
+
+5.	Ammeter	 	 	An instrument used for measuring electric current in units of amperes.
+6.	Relay	 	 	Relays are switches that open and close circuits electromechanically or electronically.
+7.	Circuit Breaker	 	 	To interrupt the current flow after a fault is detected.
+8.	Auto Transformer	 	 	It is used to start induction motors,regulate the voltage of transmission lines,transform voltages when the primary to secondary ratio is close to unity.
+
+9.	DC Motor	 	 	A DC motor is any of a class of rotary electrical machines that converts direct current electrical energy into mechanical energy.
+
+10.	Slip Ring Induction Motor	 	 	Generally employed where load requires high starting torque or good speed control.
+
+
+11.	Squirrel cage Induction Motor	 	 	It functions on the principle of electromagnetism.The interaction of the magnetic fields produced by the stator and rotor windings produces a torque on the squirrel cage rotor.
+
+12.	Rheostat	 	 	It is a variable resistor. By changing the resistance you can control the current flowing through it.
+
+S.No.	Name of the Equipment	Image	Symbol	Function
+1.	Resistor	 	 	To control the flow of current to other components in a circuit.
+2.	Capacitor	 	 	To store the electrical energy and give this energy again to the circuit when necessary.
+
+3.	Inductor	 	 	To block AC while allowing DC to pass.
+4.	Voltmeter	 	 	An instrument used for measuring electrical potential difference between two points in an electric circuit.
+5.	Ammeter	 	 	An instrument used for measuring electric current in units of amperes.
+6.	Relay	 	 	Relays are switches that open and close circuits electromechanically or electronically.
+7.	Circuit Breaker	 	 	To interrupt the current flow after a fault is detected.
+8.	Auto Transformer	 	 	It is used to start induction motors,regulate the voltage of transmission lines,transform voltages when the primary to secondary ratio is close to unity.
+9.	DC Motor	 	 	A DC motor is any of a class of rotary electrical machines that converts direct current electrical energy into mechanical energy.
+10.	Slip Ring Induction Motor	 	 	Generally employed where load requires high starting torque or good speed control.
+11.	Squirrel cage Induction Motor	 	 	It functions on the principle of electromagnetism.The interaction of the magnetic fields produced by the stator and rotor windings produces a torque on the squirrel cage rotor.
+12.	Rheostat	 	 	It is a variable resistor. By changing the resistance you can control the current flowing through it.
+
+
+

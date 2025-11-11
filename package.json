@@ -7,7 +7,8 @@
         "build": "next build --webpack",
         "start": "next start",
         "lint": "eslint",
-        "seed": "tsx ./scripts/loadDB.ts"
+        "seed": "tsx ./scripts/loadDB.ts",
+        "sync:images": "tsx ./scripts/syncImages.ts"
     },
     "dependencies": {
         "@datastax/astra-db-ts": "^2.1.2",

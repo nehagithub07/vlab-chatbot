@@ -1,15 +1,34 @@
-"use client";
+﻿"use client";
 
 import React from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Message = { role: "user" | "assistant"; content: string; sources?: string[] };
 
 const SUGGESTED: string[] = [
-  "What are the objectives of this experiment?",
+  "What is the objectives of this experiment?",
   "List the apparatus and the setup steps.",
 ];
 
 export default function Home() {
+  const normalizeForImages = (text: string): string => {
+    if (!text) return "";
+    // Convert labeled references like "Symbol: images/Capacitor.png." into an embedded image
+    let out = text.replace(
+      /\b(Photo|Symbol|Image|Figure|Pic|Picture)\s*:\s*(\/?images\/[\w\-./%]+?)(?=[\s)\]\}.,!?;:]|$)/gi,
+      (_m, lbl, pth) => {
+        const clean = String(pth).startsWith("/") ? String(pth) : "/" + String(pth);
+        return `${lbl}: ![](${clean})`;
+      }
+    );
+    // Convert bare tokens like "... in images/Capacitor.png." to embedded images
+    out = out.replace(
+      /(^|[\s(])(\/?images\/[\w\-./%]+?)(?=[\s)\]\}.,!?;:]|$)/g,
+      (_m, lead, pth) => `${lead}![](${pth.startsWith("/") ? pth : "/" + pth})`
+    );
+    return out;
+  };
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState("");
   const [loading, setLoading] = React.useState(false);
@@ -94,7 +113,7 @@ export default function Home() {
       {/* Instructions section */}
       <div className="bg-white border-b border-gray-200 px-8 py-5 shadow-sm">
         <p className="text-sm text-gray-700 font-medium mb-3">
-          📚 Ask questions about objectives, apparatus, procedures, or analysis — grounded in lab materials.
+          Ask questions about objectives, apparatus, procedures, or analysis — grounded in lab materials.
         </p>
         <div className="flex flex-wrap gap-2">
           {SUGGESTED.map((q) => (
@@ -141,14 +160,45 @@ export default function Home() {
                 )}
                 <div
                   className={
-                    "max-w-[78%] rounded-lg px-4 py-3 text-sm shadow-sm transition-all duration-200 whitespace-pre-wrap " +
+                    "max-w-[78%] rounded-lg px-4 py-3 text-sm shadow-sm transition-all duration-200 " +
                     (m.role === "user"
                       ? "text-white"
                       : "bg-gray-50 text-gray-800 border border-gray-200")
                   }
                   style={m.role === "user" ? {backgroundColor: '#02263C'} : {}}
                 >
-                  {m.content}
+                  {m.role === "assistant" ? (
+                    <>
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          img: (props) => (
+                            <img {...props} style={{maxWidth: '100%', height: 'auto', borderRadius: 6}} />
+                          ),
+                          a: (props) => (
+                            <a {...props} target="_blank" rel="noreferrer" className="underline" />
+                          )
+                        }}
+                      >
+                        {normalizeForImages(m.content)}
+                      </ReactMarkdown>
+                      {Array.isArray(m.sources) && m.sources.some((s) => /(^|\/)images\//.test(String(s))) && (
+                        <div className="mt-2 grid grid-cols-2 gap-2">
+                          {m.sources
+                            .filter((s) => /(^|\/)images\//.test(String(s)))
+                            .slice(0, 6)
+                            .map((s, i) => {
+                              const src = String(s).startsWith('/') ? String(s) : `/${String(s)}`;
+                              return (
+                                <img key={i} src={src} alt="" className="rounded border border-gray-200" style={{maxWidth: '100%', height: 'auto'}} />
+                              );
+                            })}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <span className="whitespace-pre-wrap">{m.content}</span>
+                  )}
                 </div>
                 {m.role === "user" && (
                   <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gray-600 text-xs font-bold text-white shadow-md">
@@ -186,7 +236,7 @@ export default function Home() {
                 ask(input);
               }
             }}
-            placeholder="Type your lab question here…"
+            placeholder="Type your lab question here..."
             className="w-full rounded-md border-0 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-0"
           />
           <button
@@ -206,9 +256,10 @@ export default function Home() {
       {/* Footer */}
       <footer className="px-8 py-3 text-center border-t-4 border-cyan-900" style={{backgroundColor: '#02263C'}}>
         <p className="text-xs text-cyan-100">
-          © 2025 Virtual Labs | National Mission on Education through ICT | Ministry of Education, Government of India
+          Â© 2025 Virtual Labs | National Mission on Education through ICT | Ministry of Education, Government of India
         </p>
       </footer>
     </main>
   );
 }
+
